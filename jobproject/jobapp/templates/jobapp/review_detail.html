@@ -1,0 +1,21 @@
+{% extends 'jobapp/base.html' %}
+{% load static %}
+{% load bootstrap4 %}
+{% block head_block %}
+  <title>Review Details</title>
+{% endblock %}
+{% block body_block %}
+<div class="container">
+    <div class="jumbotron">
+      <h1>Job Descriptions Details</h1><br><br>
+      <h3>{{ review.job_role }}</h3>
+      <p>Job Description : {{ review.job_description|safe|linebreaksbr }}</p>
+      <p>Published Date : {{ review.published_date|safe|linebreaksbr }}</p>
+      {% if user.is_authenticated %}
+          <a class="btn btn-primary" href="{% url 'jobapp:review_edit' pk=review.pk %}"><span class="fa fa-pencil"></span></a>
+          <a class="btn btn-primary" href="{% url 'jobapp:review_remove' pk=review.pk %}"><span class="fa fa-remove"></span></a>
+      {% endif %}
+      <hr>
+    </div>
+</div>
+{% endblock %}

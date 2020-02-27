@@ -1,8 +1,8 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import TemplateView, ListView, DetailView
 from django.views.generic.edit import (CreateView, UpdateView, DeleteView)
-from .models import JobApplication
-from .forms import (UserForm, UserProfileForm, ManagerForm, ManagerProfileForm, JobApplicationForm)
+from .models import JobApplication, Review
+from .forms import (UserForm, UserProfileForm, ManagerForm, ManagerProfileForm, JobApplicationForm, ReviewForm)
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseRedirect, HttpResponse
 from django.urls import reverse
@@ -10,6 +10,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse_lazy
 from django.utils import timezone
+import PyPDF2
 # Create your views here.
 
 def index(request):
@@ -39,7 +40,6 @@ def manager_logout(request):
 
 #Job Seeker Registration
 def register(request):
-
     registered = False
     name = "Customer"
 
@@ -195,3 +195,28 @@ class UpdateJobView(LoginRequiredMixin, UpdateView):
 class DeleteJobView(LoginRequiredMixin, DeleteView):
     model = JobApplication
     success_url = reverse_lazy('job_list')
+
+# Review CBVs
+class CreateReviewView(LoginRequiredMixin, CreateView):
+    login_url = '/login/manager/'
+    redirect_field_name = 'review_detail.html'
+    form_class = ReviewForm
+    model = Review
+
+class ListReviewView(ListView):
+    model = Review
+    def get_queryset(self):
+        return Review.objects.filter(published_date__lte=timezone.now()).order_by('-published_date')
+
+class DetailReviewView(DetailView):
+    model = Review
+
+class UpdateReviewView(LoginRequiredMixin, UpdateView):
+    login_url = '/login/manager/'
+    redirect_field_name = 'review_detail.html'
+    form_class = ReviewForm
+    model = Review
+
+class DeleteReviewView(LoginRequiredMixin, DeleteView):
+    model = Review
+    success_url = reverse_lazy('review_list')

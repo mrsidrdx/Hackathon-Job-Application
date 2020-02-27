@@ -1,0 +1,21 @@
+{% extends 'jobapp/base.html' %}
+{% load static %}
+{% load bootstrap4 %}
+{% block head_block %}
+  <title>Review Lists</title>
+{% endblock %}
+{% block body_block %}
+<div class="container">
+  <div class="jumbotron">
+    <h1>Job Descriptions From National Web Portal</h1>
+    {% for review in review_list %}
+        <h1><a href="{% url 'jobapp:review_detail' pk=review.pk %}">{{ review.job_role }}</a></h1>
+        <div>
+            <p>Published on: {{ review.published_date|date:"D M Y"}}</p>
+        </div>
+        <a href="{% url 'jobapp:review_detail' pk=review.pk %}">Job Description Review</a>
+        <hr>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

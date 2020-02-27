@@ -4,6 +4,8 @@ from django.core.validators import RegexValidator
 from django.conf import settings
 from django.utils import timezone
 from django.urls import reverse
+import PyPDF2
+import os
 # Create your models here.
 
 # Job Seeker Model
@@ -46,7 +48,26 @@ class JobApplication(models.Model):
 class Review(models.Model):
     ROLE_CHOICES = (('SE','Software Engineer'), ('AE', 'Automobile Engineer'), ('DS', 'Data Scientist'), ('BD', 'Backend Developer'), ('FD', 'Frontend Developer'), ('FSD', 'Full Stack Developer'), ('SE', 'System Engineer'), ('DE', 'DevOps Enginner'))
     job_role = models.CharField(max_length=40, choices=ROLE_CHOICES)
-    job_description = models.FileField(upload_to="resume")
+    published_date = models.DateTimeField(default = timezone.now)
+    job_description = models.FileField(upload_to="documents")
+    job_text = models.TextField(blank=True)
 
     def __str__(self):
         return self.job_role
+
+    def extract_pdf(self, rfile):
+        pdfFileObj = open(rfile, 'rb')
+        # creating a pdf reader object
+        pdfReader = PyPDF2.PdfFileReader(pdfFileObj)
+        # printing number of pages in pdf file
+        print(pdfReader.numPages)
+        # creating a page object
+        pageObj = pdfReader.getPage(0)
+        # extracting text from page
+        self.job_text = pageObj.extractText()
+        print(pageObj.extractText())
+        # closing the pdf file object
+        pdfFileObj.close()
+
+    def get_absolute_url(self):
+        return reverse("jobapp:review_detail", kwargs={'pk': self.pk})

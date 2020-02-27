@@ -1,5 +1,5 @@
 from django import forms
-from .models import User, UserProfile, ManagerProfile, JobApplication
+from .models import (User, UserProfile, ManagerProfile, JobApplication, Review)
 
 #CUSTOMER MODELS
 class UserForm(forms.ModelForm):
@@ -16,7 +16,7 @@ class UserProfileForm(forms.ModelForm):
 class JobApplicationForm(forms.ModelForm):
     class Meta():
         model = JobApplication
-        fields = ('username', 'job_role', 'work_experience', 'skills', 'job_type', 'published_date', 'resume')
+        fields = ('username', 'job_role', 'work_experience', 'skills', 'job_type', 'resume')
 
 #ROOM MANAGER MODELS
 class ManagerForm(forms.ModelForm):
@@ -29,3 +29,8 @@ class ManagerProfileForm(forms.ModelForm):
     class Meta():
         model = ManagerProfile
         fields = ('mgr_id', 'specification')
+
+class ReviewForm(forms.ModelForm):
+    class Meta():
+        model = Review
+        fields = ('job_role', 'job_description')

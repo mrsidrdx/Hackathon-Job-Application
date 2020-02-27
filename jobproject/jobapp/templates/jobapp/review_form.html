@@ -1,0 +1,22 @@
+{% extends 'jobapp/base.html' %}
+{% load static %}
+{% load bootstrap4 %}
+{% block head_block %}
+  <title>Review</title>
+{% endblock %}
+{% block body_block %}
+  <div class="jumbotron">
+    <h1>Welcome Manager!</h1><br>
+    {% if user.is_authenticated %}
+      <p><strong>Review & Edit Job Descriptions Obtained From National Web Portal.</strong></p>
+      <form enctype="multipart/form-data" method="post">
+        {% csrf_token %}
+        {% bootstrap_form form %}
+        <input type="submit" class="btn btn-primary" value="Submit">
+      </form>
+    {% else %}
+      <a href="{% url "jobapp:manager_login" %}" role="button" class="btn btn-primary">Login</a>
+      <a href="{% url "jobapp:manager_register" %}" role="button" class="btn btn-primary">Register</a>
+    {% endif %}
+  </div>
+{% endblock %}

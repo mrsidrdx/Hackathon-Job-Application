@@ -15,7 +15,8 @@
       </ul>
       <h4><strong>System Managers</strong></h4>
       <ul>
-        <li><a href="#">Review & Edit</a></li>
+        <li><a href="{% url "jobapp:review" %}">Upload Job Description</a></li>
+        <li><a href="{% url "jobapp:review_list" %}">Review & Edit</a></li>
         <li><a href="#">Manage Interviews</a></li>
       </ul>
     {% endif %}
