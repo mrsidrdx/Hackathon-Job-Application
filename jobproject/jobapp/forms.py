@@ -16,7 +16,7 @@ class UserProfileForm(forms.ModelForm):
 class JobApplicationForm(forms.ModelForm):
     class Meta():
         model = JobApplication
-        fields = ('username', 'job_role', 'work_experience', 'skills', 'job_type', 'resume')
+        fields = ('username', 'job_role', 'work_experience', 'skills', 'job_type', 'published_date', 'resume')
 
 #ROOM MANAGER MODELS
 class ManagerForm(forms.ModelForm):

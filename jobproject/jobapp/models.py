@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.core.validators import RegexValidator
 from django.conf import settings
+from django.utils import timezone
 from django.urls import reverse
 # Create your models here.
 
@@ -33,10 +34,19 @@ class JobApplication(models.Model):
     work_experience = models.PositiveIntegerField(blank = False)
     skills = models.TextField(max_length=200, blank = False)
     job_type = models.CharField(max_length=20, choices=TYPE_CHOICES)
+    published_date = models.DateTimeField(default = timezone.now)
     resume = models.FileField(upload_to="resume")
 
     def __str__(self):
         return self.username.username
 
     def get_absolute_url(self):
-        return reverse("jobapp:thankyou", kwargs={'pk': self.pk})
+        return reverse("jobapp:job_detail", kwargs={'pk': self.pk})
+
+class Review(models.Model):
+    ROLE_CHOICES = (('SE','Software Engineer'), ('AE', 'Automobile Engineer'), ('DS', 'Data Scientist'), ('BD', 'Backend Developer'), ('FD', 'Frontend Developer'), ('FSD', 'Full Stack Developer'), ('SE', 'System Engineer'), ('DE', 'DevOps Enginner'))
+    job_role = models.CharField(max_length=40, choices=ROLE_CHOICES)
+    job_description = models.FileField(upload_to="resume")
+
+    def __str__(self):
+        return self.job_role

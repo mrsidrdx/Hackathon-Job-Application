@@ -1,0 +1,21 @@
+{% extends 'jobapp/base.html' %}
+{% load static %}
+{% load bootstrap4 %}
+{% block head_block %}
+  <title>Job Lists</title>
+{% endblock %}
+{% block body_block %}
+<div class="container">
+  <div class="jumbotron">
+    <h1>Job Applications</h1>
+    {% for jobapplication in jobapplication_list %}
+        <h1><a href="{% url 'jobapp:job_detail' pk=jobapplication.pk %}">{{ jobapplication.job_role }}</a></h1>
+        <div>
+            <p>Published on: {{ jobapplication.published_date|date:"D M Y"}}</p>
+        </div>
+        <a href="{% url 'jobapp:job_detail' pk=jobapplication.pk %}">Application Review</a>
+        <hr>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

@@ -9,6 +9,7 @@ from django.urls import reverse
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse_lazy
+from django.utils import timezone
 # Create your views here.
 
 def index(request):
@@ -173,11 +174,24 @@ def manager_login(request):
 
 class CreateJobView(LoginRequiredMixin, CreateView):
     login_url = '/login/jobseeker/'
-    redirect_field_name = 'index.html'
+    redirect_field_name = 'job_detail.html'
     form_class = JobApplicationForm
     model = JobApplication
+
+class ListJobView(ListView):
+    model = JobApplication
+    def get_queryset(self):
+        return JobApplication.objects.filter(published_date__lte=timezone.now()).order_by('-published_date')
+
+class DetailJobView(DetailView):
+    model = JobApplication
+
 class UpdateJobView(LoginRequiredMixin, UpdateView):
     login_url = '/login/jobseeker/'
-    redirect_field_name = 'index.html'
+    redirect_field_name = 'job_detail.html'
     form_class = JobApplicationForm
     model = JobApplication
+
+class DeleteJobView(LoginRequiredMixin, DeleteView):
+    model = JobApplication
+    success_url = reverse_lazy('job_list')

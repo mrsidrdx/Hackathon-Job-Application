@@ -1,0 +1,24 @@
+{% extends 'jobapp/base.html' %}
+{% load static %}
+{% load bootstrap4 %}
+{% block head_block %}
+  <title>Job Details</title>
+{% endblock %}
+{% block body_block %}
+<div class="container">
+    <div class="jumbotron">
+      <h1>Application Details</h1><br><br>
+      <h3>{{ jobapplication.job_role }}</h3>
+      <p>Username : {{ jobapplication.username|safe|linebreaksbr }}</p>
+      <p>Work Experience : {{ jobapplication.work_experience|safe|linebreaksbr }}</p>
+      <p>Skills : {{ jobapplication.skills|safe|linebreaksbr }}</p>
+      <p>Job Type : {{ jobapplication.job_type|safe|linebreaksbr }}</p>
+      <p>Published Date : {{ jobapplication.published_date|safe|linebreaksbr }}</p>
+      {% if user.is_authenticated %}
+          <a class="btn btn-primary" href="{% url 'jobapp:job_edit' pk=jobapplication.pk %}"><span class="fa fa-pencil"></span></a>
+          <a class="btn btn-primary" href="{% url 'jobapp:job_remove' pk=jobapplication.pk %}"><span class="fa fa-remove"></span></a>
+      {% endif %}
+      <hr>
+    </div>
+</div>
+{% endblock %}
