@@ -26,7 +26,7 @@
         </div>
         <div class="navbar-nav align-items-center ml-auto">
           {% if user.is_authenticated %}
-            <a class="nav-item nav-link" href="{% url 'jobapp:jobapply' %}">Apply For Job</a>
+            <!-- <a class="nav-item nav-link" href="{% url 'jobapp:jobapply' %}">Apply For Job</a> -->
             <a class="nav-item nav-link" href="{% url 'jobapp:review_list' %}">Review & Edit</a>
             <a class="nav-item nav-link" href="#">Manage Interviews</a>
             <a class="nav-item nav-link" href="{% url 'logout' %}">Log Out</a>

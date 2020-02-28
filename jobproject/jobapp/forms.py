@@ -33,4 +33,4 @@ class ManagerProfileForm(forms.ModelForm):
 class ReviewForm(forms.ModelForm):
     class Meta():
         model = Review
-        fields = ('job_role', 'job_description')
+        fields = ('job_role', 'job_description', 'job_text')

@@ -19,6 +19,19 @@ def index(request):
 def thankyou(request):
     return render(request, "thankyou.html", {})
 
+def extract_pdf(request):
+    if request.method == 'POST' and request.FILES['job_description']:
+        pdfFileObj = request.FILES['job_description'].read()
+        pdfReader = PyPDF2.PdfFileReader(io.BytesIO(pdfFileObj))
+        NumPages = pdfReader.numPages
+        i = 0
+        content = []
+        while (i<NumPages):
+            text = pdfReader.getPage(i)
+            content.append(text.extractText())
+            i +=1
+    return ''.join(content)
+
 class AboutView(TemplateView):
     template_name = 'about.html'
 
@@ -178,6 +191,7 @@ class CreateJobView(LoginRequiredMixin, CreateView):
     form_class = JobApplicationForm
     model = JobApplication
 
+
 class ListJobView(ListView):
     model = JobApplication
     def get_queryset(self):
@@ -194,7 +208,7 @@ class UpdateJobView(LoginRequiredMixin, UpdateView):
 
 class DeleteJobView(LoginRequiredMixin, DeleteView):
     model = JobApplication
-    success_url = reverse_lazy('job_list')
+    success_url = reverse_lazy('jobapp:job_list')
 
 # Review CBVs
 class CreateReviewView(LoginRequiredMixin, CreateView):
@@ -219,4 +233,4 @@ class UpdateReviewView(LoginRequiredMixin, UpdateView):
 
 class DeleteReviewView(LoginRequiredMixin, DeleteView):
     model = Review
-    success_url = reverse_lazy('review_list')
+    success_url = reverse_lazy('jobapp:review_list')

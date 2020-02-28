@@ -6,15 +6,11 @@
 {% endblock %}
 {% block body_block %}
   <div class="jumbotron">
-    <h1>Welcome Job Applicant!</h1><br>
+    <h1>Welcome Manager!</h1><br>
     {% if user.is_authenticated %}
-      <h4><strong>Job Seekers</strong></h4>
-      <ul>
-        <li><a href="{% url "jobapp:jobapply" %}">Apply For Job!</a></li>
-        <li><a href="{% url "jobapp:job_list" %}">View Applications</a></li>
-      </ul>
       <h4><strong>System Managers</strong></h4>
       <ul>
+        <li><a href="{% url "jobapp:job_list" %}">View Applications</a></li>
         <li><a href="{% url "jobapp:review" %}">Upload Job Description</a></li>
         <li><a href="{% url "jobapp:review_list" %}">Review & Edit</a></li>
         <li><a href="#">Manage Interviews</a></li>
